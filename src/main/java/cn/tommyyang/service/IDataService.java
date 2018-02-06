@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface IDataService {
 
-    Boolean insertOne();
+    Boolean insertOne(Data data);
 
     List<Data> getAll();
 
