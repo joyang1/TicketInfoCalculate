@@ -1,6 +1,6 @@
-package cn.tommyyang.dao;
+package cn.tommyyang.calctool.dao;
 
-import cn.tommyyang.utils.AccessUtils;
+import cn.tommyyang.calctool.utils.AccessUtils;
 
 import java.sql.Connection;
 import java.sql.Statement;

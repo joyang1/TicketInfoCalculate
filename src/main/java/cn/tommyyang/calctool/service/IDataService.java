@@ -1,6 +1,6 @@
-package cn.tommyyang.service;
+package cn.tommyyang.calctool.service;
 
-import cn.tommyyang.model.Data;
+import cn.tommyyang.calctool.model.Data;
 
 import java.util.List;
 
@@ -13,4 +13,7 @@ public interface IDataService {
 
     List<Data> getAll();
 
+    List<Data> get(Long startTime, Long endTime);
+
+    List<Data> get(Integer qishu);
 }

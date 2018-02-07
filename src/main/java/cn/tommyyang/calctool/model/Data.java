@@ -1,4 +1,4 @@
-package cn.tommyyang.model;
+package cn.tommyyang.calctool.model;
 
 /**
  * Created by TommyYang on 2018/2/5.

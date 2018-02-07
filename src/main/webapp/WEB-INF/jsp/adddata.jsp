@@ -47,14 +47,16 @@
                 $.ajax(
                     {
                         url:"/calc/adddata.do",
+                        type:'POST',
                         data:{qihao:$("#qihao").val(), res:$("#res").val()},
+                        dataType:'json',
                         success:function (data) {
                             if(data==1){
-                                $.alert("添加成功");
+                                $.messager.alert('提示','添加成功!','info');
                             }else if(data==2){
-                                $.alert("参数格式有问题，检查后再试");
+                                $.messager.alert('提示','参数格式有问题，检查后再试!','warning');
                             }else {
-                                $.alert("内部错误，联系管理员")
+                                $.messager.alert('提示','内部错误，联系管理员!','error');
                             }
                         }
                     }

@@ -1,4 +1,4 @@
-package cn.tommyyang.model.responsecode;
+package cn.tommyyang.calctool.model.responsecode;
 
 /**
  * Created by TommyYang on 2018/2/6.

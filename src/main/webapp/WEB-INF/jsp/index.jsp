@@ -63,7 +63,7 @@
          style="overflow: auto; padding: 10px;">
         <a href="#" onclick="addTab('计算', 'gocalc.do', 'icon-user')"><img
                 src="/EasyUI/themes/icons/user.png">计算</a><br /> <br />
-        <a href="#" onclick="addTab('单期添加', 'adddata.do', 'icon-user')"><img
+        <a href="#" onclick="addTab('单期添加', 'goadddata.do', 'icon-user')"><img
                 src="/EasyUI/themes/icons/user.png">单期添加</a><br /> <br />
     </div>
     <div title="店铺商品管理" data-options="iconCls:'icon-save'"

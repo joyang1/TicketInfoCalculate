@@ -1,8 +1,8 @@
-package cn.tommyyang.service.impl;
+package cn.tommyyang.calctool.service.impl;
 
-import cn.tommyyang.dao.IDataDao;
-import cn.tommyyang.model.Data;
-import cn.tommyyang.service.IDataService;
+import cn.tommyyang.calctool.dao.IDataDao;
+import cn.tommyyang.calctool.model.Data;
+import cn.tommyyang.calctool.service.IDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +36,26 @@ public class DataServiceImpl implements IDataService {
 
     @Override
     public List<Data> getAll() {
+        return null;
+    }
+
+    @Override
+    public List<Data> get(Long startTime, Long endTime) {
+        try {
+            return dataDao.get(startTime, endTime);
+        }catch (Exception e){
+            logger.error("get data by startTime,endTime error:\n",e );
+        }
+        return null;
+    }
+
+    @Override
+    public List<Data> get(Integer qishu) {
+        try {
+            return dataDao.get(qishu);
+        }catch (Exception e){
+            logger.error("get data by qishu error:\n",e );
+        }
         return null;
     }
 }

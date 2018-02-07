@@ -1,6 +1,6 @@
-package cn.tommyyang.dao;
+package cn.tommyyang.calctool.dao;
 
-import cn.tommyyang.model.Data;
+import cn.tommyyang.calctool.model.Data;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,5 +13,9 @@ public interface IDataDao {
     Boolean insertOne(String qihao, String res) throws SQLException;
 
     List<Data> getAll();
+
+    List<Data> get(Long startTime, Long endTime) throws SQLException;
+
+    List<Data> get(Integer qishu) throws SQLException;
 
 }
