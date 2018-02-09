@@ -9,6 +9,8 @@ public class Data {
 
     private Integer res;
 
+    private Boolean isLow;
+
     public Data(Long qihao, Integer res) {
         this.qihao = qihao;
         this.res = res;
@@ -28,5 +30,13 @@ public class Data {
 
     public void setRes(Integer res) {
         this.res = res;
+    }
+
+    public Boolean getLow() {
+        return isLow;
+    }
+
+    public void setLow(Boolean low) {
+        isLow = low;
     }
 }

@@ -95,26 +95,74 @@
 </body>
 </html>
 <script type="text/javascript">
-
     $(document).ready(function () {
+        $('#dg').datagrid({
+            loadMsg: "数据加载中...",
+            //fit : true, //设置了分页不显示
+            border : true,
+            singleSelect: true,
+            fitColumns: true,
+            pagination: true,
+            url: '/calc/count.do',
+            method: 'POST',
+            queryParams: {
+                starttime: "2018-2-6", endtime: "2018-2-7",
+                weishu: 5, qishu: 50
+            },
+            columns: [[{
+                field: 'qihao',
+                title: '期号',
+                width: 20
+            }, {
+                field: 'res',
+                title: '开奖结果',
+                width: 40
+            }, {
+                field: 'islow',
+                title: '是否低于均值',
+                width: 80
+            }]]
+        });
+        //分页
+        var pagenum = 10;
+        load();
+
+        function load() {
+            var p = $('#dg').datagrid('getPager');
+            $(p).pagination({
+                pageSize: pagenum, //每页显示的记录条数，默认为10
+                pageList: [10, 20, 30], //可以设置每页记录条数的列表
+                beforePageText: '第', //页数文本框前显示的汉字
+                afterPageText: '页    共 {pages} 页',
+                displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',
+                onBeforeRefresh: function (pageNumberNow, pageSizeNow) {
+                    pagenum = pageSizeNow;
+                    $('#dg').datagrid('reload', null);
+                    load();
+                }
+            });
+        }
+
         $('#count').click(function () {
             var starttime = $('#starttime').datebox('getValue');
             var endtime = $('#endtime').datebox('getValue');
             var weishu = $('#weishulist').combobox('getValue');
             var qishu = $('#qishulist').combobox('getValue');
-            $.ajax({
-                url: "/calc/count.do",
-                type: 'POST',
-                data: {
-                    starttime: starttime, endtime: endtime,
-                    weishu:weishu, qishu: qishu
-                },
-                dataType: 'json',
-                success: function (data) {
-
-                }
-            });
+            reloadgrid(starttime, endtime, weishu, qishu);
         });
-    });
 
+        function reloadgrid(starttime, endtime, weishu, qishu) {
+            // 查询参数直接添加在url中
+            var url = "/calc/count.do";
+            $('#dg').datagrid('options').url = url;
+            // 查询参数直接添加在queryParams中
+            var queryParams = $('#dg').datagrid('options').queryParams;
+            queryParams.starttime = starttime;
+            queryParams.endtime = endtime;
+            queryParams.weishu = weishu;
+            queryParams.qishu = qishu;
+            $('#dg').datagrid('options').queryParams = queryParams;
+            $("#dg").datagrid('reload',null);
+        }
+    });
 </script>
