@@ -34,7 +34,7 @@ public class DataDaoImpl extends BaseDao implements IDataDao {
         List<Data> dataList = new ArrayList<>();
         while (rs.next()){
             Long qihao = rs.getLong("qihao");
-            Integer kjjg = rs.getInt("kjjg");
+            String kjjg = rs.getString("kjjg");
             dataList.add(new Data(qihao, kjjg));
         }
         return dataList;
@@ -47,7 +47,7 @@ public class DataDaoImpl extends BaseDao implements IDataDao {
         List<Data> dataList = new ArrayList<>();
         while (rs.next()){
             Long qihao = rs.getLong("qihao");
-            Integer kjjg = rs.getInt("kjjg");
+            String kjjg = rs.getString("kjjg");
             dataList.add(new Data(qihao, kjjg));
         }
         return dataList;

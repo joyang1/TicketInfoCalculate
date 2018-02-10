@@ -43,6 +43,8 @@
                 <option value="9">9</option>
             </select>
         </td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
         <%--<td>低于平均值多少是显示</td>--%>
@@ -80,11 +82,14 @@
                 <option value="200">200</option>
             </select>
         </td>
-        <td>平均值合计：</td>
+        <td>当前均值：</td>
         <td>
-            <input type="text" value=""/>
+            <label id="avg"></label>
         </td>
-        <td></td>
+        <td>
+            自定义均值:
+        </td>
+        <td><input type="text" id="szavg" value=""/></td>
         <td>
             <a href="#" id="count" class="easyui-linkbutton" iconCls="icon-search">统计区间</a>
         </td>
@@ -96,10 +101,12 @@
 </html>
 <script type="text/javascript">
     $(document).ready(function () {
+        $('#weishulist').combobox('setValue', '5');
+        $('#avg').text(25);
         $('#dg').datagrid({
             loadMsg: "数据加载中...",
             //fit : true, //设置了分页不显示
-            border : true,
+            border: true,
             singleSelect: true,
             fitColumns: true,
             pagination: true,
@@ -107,20 +114,20 @@
             method: 'POST',
             queryParams: {
                 starttime: "2018-2-6", endtime: "2018-2-7",
-                weishu: 5, qishu: 50
+                weishu: 5, qishu: 50, szavg: 25
             },
             columns: [[{
-                field: 'qihao',
-                title: '期号',
-                width: 20
-            }, {
                 field: 'res',
-                title: '开奖结果',
+                title: '组合',
+                width: 40
+            }, {
+                field: 'avg',
+                title: '均值',
                 width: 40
             }, {
                 field: 'islow',
                 title: '是否低于均值',
-                width: 80
+                width: 20
             }]]
         });
         //分页
@@ -148,10 +155,16 @@
             var endtime = $('#endtime').datebox('getValue');
             var weishu = $('#weishulist').combobox('getValue');
             var qishu = $('#qishulist').combobox('getValue');
-            reloadgrid(starttime, endtime, weishu, qishu);
+            var avg = qishu / 10 * weishu;
+            var szavg = $('#szavg').val();
+            if (szavg == "" || szavg == null) {
+                szavg = avg;
+            }
+            $('#avg').text(avg);
+            reloadgrid(starttime, endtime, weishu, qishu, szavg);
         });
 
-        function reloadgrid(starttime, endtime, weishu, qishu) {
+        function reloadgrid(starttime, endtime, weishu, qishu, szavg) {
             // 查询参数直接添加在url中
             var url = "/calc/count.do";
             $('#dg').datagrid('options').url = url;
@@ -161,8 +174,9 @@
             queryParams.endtime = endtime;
             queryParams.weishu = weishu;
             queryParams.qishu = qishu;
+            queryParams.szavg = szavg;
             $('#dg').datagrid('options').queryParams = queryParams;
-            $("#dg").datagrid('reload',null);
+            $("#dg").datagrid('reload', null);
         }
     });
 </script>

@@ -7,11 +7,11 @@ public class Data {
 
     private Long qihao;
 
-    private Integer res;
+    private String res;
 
     private Boolean isLow;
 
-    public Data(Long qihao, Integer res) {
+    public Data(Long qihao, String res) {
         this.qihao = qihao;
         this.res = res;
     }
@@ -24,11 +24,11 @@ public class Data {
         this.qihao = qihao;
     }
 
-    public Integer getRes() {
+    public String getRes() {
         return res;
     }
 
-    public void setRes(Integer res) {
+    public void setRes(String res) {
         this.res = res;
     }
 

@@ -5,7 +5,7 @@ package cn.tommyyang.calctool.utils;
  */
 public class IntegerUtils {
 
-    public static Integer[] integerToArray(Integer integer){
+    public static Integer[] strToArray(String integer){
         Integer[] arrs;
         String intStr = integer.toString();
         if(intStr.length() == 5){
@@ -21,8 +21,19 @@ public class IntegerUtils {
         }
     }
 
+    public static Integer[] integerStrToArray(String intStr){
+        String[] intStrArr = intStr.split(Constants.COMMA);
+        Integer[] intArr = new Integer[intStrArr.length];
+        Integer i = 0;
+        for (String str: intStrArr) {
+            intArr[i] = Integer.valueOf(str.trim());
+            i++;
+        }
+        return intArr;
+    }
+
     public static void main(String[] args){
-        Integer[] arrs = integerToArray(19802);
+        Integer[] arrs = strToArray("01982");
         for (Integer i: arrs) {
             System.out.println(i);
         }

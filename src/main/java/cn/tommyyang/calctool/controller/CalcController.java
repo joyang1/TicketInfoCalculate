@@ -1,6 +1,7 @@
 package cn.tommyyang.calctool.controller;
 
 import cn.tommyyang.calctool.model.Data;
+import cn.tommyyang.calctool.model.ResultData;
 import cn.tommyyang.calctool.model.responsecode.ResponseCode;
 import cn.tommyyang.calctool.service.IDataService;
 import cn.tommyyang.calctool.utils.CalcUtils;
@@ -32,6 +33,8 @@ import java.util.Map;
 public class CalcController extends BaseController {
 
     private final static Logger logger = LoggerFactory.getLogger(CalcController.class);
+    private final static Integer[] initArr = new Integer[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
     @Autowired
     private IDataService dataService;
 
@@ -58,7 +61,7 @@ public class CalcController extends BaseController {
         try {
             Long qihaoLong = Long.parseLong(qihao);
             Integer resInt = Integer.parseInt(res);
-            Boolean flag = dataService.insertOne(new Data(qihaoLong, resInt));
+            Boolean flag = dataService.insertOne(new Data(qihaoLong, resInt.toString()));
             if (!flag) {
                 return ResponseCode.ERROR_CODE;
             }
@@ -74,22 +77,26 @@ public class CalcController extends BaseController {
     public void countInfo(HttpServletRequest request, HttpServletResponse response,
                           @RequestParam("starttime") String startTime, @RequestParam("endtime") String endTime,
                           @RequestParam("qishu") Integer qishu, @RequestParam("weishu") Integer weishu,
+                          @RequestParam("szavg") Integer szavg,
                           @RequestParam("page") Integer page, @RequestParam("rows") Integer rows) {
         try {
-            String startDateStr = DateTimeUtils.dateToStr("yyyyMMdd", DateTimeUtils.strToDate("yyyy-MM-dd", startTime)) + "000";
-            String endDateStr = DateTimeUtils.dateToStr("yyyyMMdd", DateTimeUtils.strToDate("yyyy-MM-dd", endTime)) + "999";
             List<Data> dataList;
             if (qishu > 0) {
                 dataList = dataService.get(qishu);
             } else {
+                String startDateStr = DateTimeUtils.dateToStr("yyyyMMdd", DateTimeUtils.strToDate("yyyy-MM-dd", startTime)) + "000";
+                String endDateStr = DateTimeUtils.dateToStr("yyyyMMdd", DateTimeUtils.strToDate("yyyy-MM-dd", endTime)) + "999";
                 Long startDateLong = Long.parseLong(startDateStr);
                 Long endDateLong = Long.parseLong(endDateStr);
                 dataList = dataService.get(startDateLong, endDateLong);
             }
             Map<Integer, Map<Integer, Integer>> initMap = CalcUtils.getMap();
-            Integer avg = CalcUtils.getAvg(qishu, weishu);
+            Integer avg = szavg;
+            List<String> combineArr = new ArrayList<>();
+            CalcUtils.combine(combineArr,0, weishu, initArr);
+
             for (Data data : dataList) {
-                Integer[] resArr = IntegerUtils.integerToArray(data.getRes());
+                Integer[] resArr = IntegerUtils.strToArray(data.getRes());
                 Integer pos = 0;
                 for (Integer i : resArr) {
                     Map<Integer, Integer> dataMap = initMap.get(pos);
@@ -99,8 +106,9 @@ public class CalcController extends BaseController {
                     pos++;
                 }
             }
-            for (Data data : dataList) {
-                Integer[] resArr = IntegerUtils.integerToArray(data.getRes());
+            List<ResultData> resultDataList = new ArrayList<>();
+            for (String combine : combineArr) {
+                Integer[] resArr = IntegerUtils.integerStrToArray(combine);
                 Integer pos = 0;
                 Integer sum = 0;
                 for (Integer i : resArr) {
@@ -109,19 +117,13 @@ public class CalcController extends BaseController {
                     sum = sum + times;
                     pos++;
                 }
+
                 if (sum < avg) {
-                    data.setLow(true);
-                } else {
-                    data.setLow(false);
+                    ResultData resultData = new ResultData(combine, sum);
+                    resultDataList.add(resultData);
                 }
             }
-            List<Data> lowDataList = new ArrayList<>();
-            for (Data item: dataList) {
-                if(item.getLow()){
-                    lowDataList.add(item);
-                }
-            }
-            this.writeResponseContent(response, JsonUtils.getDataJson(lowDataList, page, rows));
+            this.writeResponseContent(response, JsonUtils.getResultDataJson(resultDataList, page, rows));
         } catch (ParseException e) {
             logger.error("参数异常:\n", e);
         } catch (NumberFormatException e) {

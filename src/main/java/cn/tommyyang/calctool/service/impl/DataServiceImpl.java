@@ -27,7 +27,7 @@ public class DataServiceImpl implements IDataService {
     @Override
     public Boolean insertOne(Data data) {
         try {
-            return dataDao.insertOne(data.getQihao().toString(), data.getRes().toString());
+            return dataDao.insertOne(data.getQihao().toString(), data.getRes());
         }catch (Exception e){
             logger.error("insert data into table error:\n",e );
         }
