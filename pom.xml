@@ -23,9 +23,9 @@
 
   <modelVersion>4.0.0</modelVersion>
   <packaging>war</packaging>
-  <name>cn.tommyyang.timetaskwithquartz</name>
-  <groupId>TimeTaskWithQuartz</groupId>
-  <artifactId>TimeTaskWithQuartz</artifactId>
+  <name>cn.tommyyang.calctool</name>
+  <groupId>CalcTool</groupId>
+  <artifactId>CalcTool</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
