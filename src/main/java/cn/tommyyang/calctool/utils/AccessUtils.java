@@ -11,7 +11,7 @@ import java.sql.*;
 public class AccessUtils {
 
     private final static Logger logger = LoggerFactory.getLogger(AccessUtils.class);
-    public static String URL = "jdbc:ucanaccess://E:\\runtest\\dat.mdb";
+    public static String URL = "jdbc:ucanaccess://E:\\db\\dat.mdb";
 
     public static Connection getConn() {
         Connection conn = null;

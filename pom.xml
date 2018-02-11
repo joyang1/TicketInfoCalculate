@@ -314,7 +314,7 @@
         <directory>src/main/resources/${profiles.active}</directory>
       </resource>
     </resources>
-    <finalName>TimeTaskWithQuartz</finalName>
+    <finalName>CalcTool</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
