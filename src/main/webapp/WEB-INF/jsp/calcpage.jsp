@@ -75,12 +75,13 @@
         <%--</td>--%>
         <td>期数</td>
         <td>
-            <select id="qishulist" class="easyui-combobox" name="qishu" style="width:60px;">
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="150">150</option>
-                <option value="200">200</option>
-            </select>
+            <%--<select id="qishulist" class="easyui-combobox" name="qishu" style="width:60px;">--%>
+            <%--<option value="50">50</option>--%>
+            <%--<option value="100">100</option>--%>
+            <%--<option value="150">150</option>--%>
+            <%--<option value="200">200</option>--%>
+            <%--</select>--%>
+            <input type="text" id="qishu" value="50"/>
         </td>
         <td>当前均值：</td>
         <td>
@@ -154,7 +155,7 @@
             var starttime = $('#starttime').datebox('getValue');
             var endtime = $('#endtime').datebox('getValue');
             var weishu = $('#weishulist').combobox('getValue');
-            var qishu = $('#qishulist').combobox('getValue');
+            var qishu = $('#qishu').val();
             var avg = qishu / 10 * weishu;
             var szavg = $('#szavg').val();
             if (szavg == "" || szavg == null) {
