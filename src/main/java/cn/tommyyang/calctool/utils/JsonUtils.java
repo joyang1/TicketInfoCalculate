@@ -22,7 +22,7 @@ public class JsonUtils {
         int i = (pageNumber - 1) * pageSize;
         for (int j = i; j < totals; j++) {
             Data data = list.get(j);
-            if(!data.getLow()){
+            if (!data.getLow()) {
                 continue;
             }
             json += "{\"qihao\":\"" + data.getQihao() + "\",\"res\":\"" + data.getRes() + "\",\"islow\":\"是\"},";
@@ -46,9 +46,9 @@ public class JsonUtils {
         int i = (pageNumber - 1) * pageSize;
         for (int j = i; j < totals; j++) {
             ResultData resultData = list.get(j);
-            json += "{\"res\":\"" + resultData.getCombine() + "\",\"avg\":\"" + resultData.getAvg() + "\",\"islow\":\"是\"},";
+            json += "{\"res\":\"" + resultData.getCombine() + "\",\"avg\":\"" + resultData.getAvg() + "\",\"bit\":\"" + resultData.getBit().getName() + "\"},";
         }
-        if(total > 0){
+        if (total > 0) {
             json = json.substring(0, json.length() - 1);
         }
         json += "]}";
@@ -58,19 +58,21 @@ public class JsonUtils {
 
     /**
      * JSON字符串特殊字符处理，比如：“\A1;1300”
+     *
      * @param s
      * @return String
      */
     public static String stringtoJson(String s) {
         StringBuffer sb = new StringBuffer();
-        for (int i=0; i<s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            switch (c){
+            switch (c) {
 //             case '\"':
 //                 sb.append("\\\"");
 //                 break;
                 case '"':
-                    sb.append("'");break;
+                    sb.append("'");
+                    break;
 //             case '\\':
 //                 sb.append("\\\\");
 //                 break;

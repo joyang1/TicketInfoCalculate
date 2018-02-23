@@ -1,5 +1,6 @@
 package cn.tommyyang.calctool.controller;
 
+import cn.tommyyang.calctool.model.Bit;
 import cn.tommyyang.calctool.model.Data;
 import cn.tommyyang.calctool.model.ResultData;
 import cn.tommyyang.calctool.model.responsecode.ResponseCode;
@@ -92,6 +93,7 @@ public class CalcController extends BaseController {
             }
             Map<Integer, Map<Integer, Integer>> initMap = CalcUtils.getMap();
             Integer avg = szavg;
+            Integer bitAvg = qishu / 10;
             List<String> combineArr = new ArrayList<>();
             CalcUtils.combine(combineArr,0, weishu, initArr);
 
@@ -119,8 +121,16 @@ public class CalcController extends BaseController {
                 }
 
                 if (sum < avg) {
-                    ResultData resultData = new ResultData(combine, sum);
-                    resultDataList.add(resultData);
+                    Integer pos1 = 0;
+                    for (Integer i : resArr) {
+                        Map<Integer, Integer> dataMap = initMap.get(pos1);
+                        Integer times = dataMap.get(i);
+                        if(times < bitAvg){
+                            ResultData resultData = new ResultData(combine, sum, Bit.get(pos1));
+                            resultDataList.add(resultData);
+                        }
+                        pos1++;
+                    }
                 }
             }
             this.writeResponseContent(response, JsonUtils.getResultDataJson(resultDataList, page, rows));

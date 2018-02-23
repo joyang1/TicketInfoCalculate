@@ -9,9 +9,12 @@ public class ResultData {
 
     private Integer avg;
 
-    public ResultData(String combine, Integer avg) {
+    private Bit bit;
+
+    public ResultData(String combine, Integer avg, Bit bit) {
         this.combine = combine;
         this.avg = avg;
+        this.bit = bit;
     }
 
     public String getCombine() {
@@ -28,5 +31,13 @@ public class ResultData {
 
     public void setAvg(Integer avg) {
         this.avg = avg;
+    }
+
+    public Bit getBit() {
+        return bit;
+    }
+
+    public void setBit(Bit bit) {
+        this.bit = bit;
     }
 }

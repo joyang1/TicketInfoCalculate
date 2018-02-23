@@ -125,8 +125,8 @@
                 title: '均值',
                 width: 40
             }, {
-                field: 'islow',
-                title: '是否低于均值',
+                field: 'bit',
+                title: '低于均值的位',
                 width: 20
             }]]
         });
