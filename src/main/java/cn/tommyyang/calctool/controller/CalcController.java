@@ -93,9 +93,8 @@ public class CalcController extends BaseController {
             }
             Map<Integer, Map<Integer, Integer>> initMap = CalcUtils.getMap();
             Integer avg = szavg;
-            Integer bitAvg = qishu / 10;
             List<String> combineArr = new ArrayList<>();
-            CalcUtils.combine(combineArr,0, weishu, initArr);
+            CalcUtils.combine(combineArr, 0, weishu, initArr);
 
             for (Data data : dataList) {
                 Integer[] resArr = IntegerUtils.strToArray(data.getRes());
@@ -111,27 +110,19 @@ public class CalcController extends BaseController {
             List<ResultData> resultDataList = new ArrayList<>();
             for (String combine : combineArr) {
                 Integer[] resArr = IntegerUtils.integerStrToArray(combine);
-                Integer pos = 0;
-                Integer sum = 0;
-                for (Integer i : resArr) {
-                    Map<Integer, Integer> dataMap = initMap.get(pos);
-                    Integer times = dataMap.get(i);
-                    sum = sum + times;
-                    pos++;
-                }
-
-                if (sum < avg) {
-                    Integer pos1 = 0;
+                for (Integer p = 0; p < 5; p++) {
+                    Map<Integer, Integer> dataMap = initMap.get(p);
+                    Integer sum = 0;
                     for (Integer i : resArr) {
-                        Map<Integer, Integer> dataMap = initMap.get(pos1);
                         Integer times = dataMap.get(i);
-                        if(times < bitAvg){
-                            ResultData resultData = new ResultData(combine, sum, Bit.get(pos1));
-                            resultDataList.add(resultData);
-                        }
-                        pos1++;
+                        sum = sum + times;
+                    }
+                    if (sum < avg) {
+                        ResultData resultData = new ResultData(combine, sum, Bit.get(p));
+                        resultDataList.add(resultData);
                     }
                 }
+
             }
             this.writeResponseContent(response, JsonUtils.getResultDataJson(resultDataList, page, rows));
         } catch (ParseException e) {
