@@ -22,8 +22,16 @@ public class DataDaoImpl extends BaseDao implements IDataDao {
     }
 
     @Override
-    public List<Data> getAll() {
-        return null;
+    public List<Data> getAll()  throws SQLException {
+        String sql = "select qihao,kjjg from dat order by qihao desc";
+        ResultSet rs = this.getStmt().executeQuery(sql);
+        List<Data> dataList = new ArrayList<>();
+        while (rs.next()){
+            Long qihao = rs.getLong("qihao");
+            String kjjg = rs.getString("kjjg");
+            dataList.add(new Data(qihao, kjjg));
+        }
+        return dataList;
     }
 
     @Override

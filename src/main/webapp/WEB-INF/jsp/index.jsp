@@ -63,6 +63,8 @@
          style="overflow: auto; padding: 10px;">
         <a href="#" onclick="addTab('计算', 'gocalc.do', 'icon-user')"><img
                 src="/EasyUI/themes/icons/user.png">计算</a><br /> <br />
+        <a href="#" onclick="addTab('预警数据', 'gowarningdatapage.do', 'icon-user')"><img
+                src="/EasyUI/themes/icons/user.png">预警数据</a><br /> <br />
         <a href="#" onclick="addTab('单期添加', 'goadddata.do', 'icon-user')"><img
                 src="/EasyUI/themes/icons/user.png">单期添加</a><br /> <br />
     </div>

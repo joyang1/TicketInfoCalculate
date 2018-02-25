@@ -12,7 +12,7 @@ public interface IDataDao {
 
     Boolean insertOne(String qihao, String res) throws SQLException;
 
-    List<Data> getAll();
+    List<Data> getAll() throws SQLException;
 
     List<Data> get(Long startTime, Long endTime) throws SQLException;
 

@@ -36,6 +36,11 @@ public class DataServiceImpl implements IDataService {
 
     @Override
     public List<Data> getAll() {
+        try {
+            return dataDao.getAll();
+        }catch (Exception e){
+            logger.error("get all data error:\n",e );
+        }
         return null;
     }
 

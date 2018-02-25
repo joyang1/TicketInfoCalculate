@@ -3,6 +3,7 @@ package cn.tommyyang.calctool.controller;
 import cn.tommyyang.calctool.model.Bit;
 import cn.tommyyang.calctool.model.Data;
 import cn.tommyyang.calctool.model.ResultData;
+import cn.tommyyang.calctool.model.WarningData;
 import cn.tommyyang.calctool.model.responsecode.ResponseCode;
 import cn.tommyyang.calctool.service.IDataService;
 import cn.tommyyang.calctool.utils.CalcUtils;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +49,11 @@ public class CalcController extends BaseController {
     @RequestMapping("/gocalc.do")
     public String goCalc(HttpServletRequest request, HttpServletResponse response) {
         return renderString(response, "calcpage");
+    }
+
+    @RequestMapping("/gowarningdatapage.do")
+    public String goWarningPage(HttpServletRequest request, HttpServletResponse response) {
+        return renderString(response, "warningdatapage");
     }
 
     @RequestMapping("/goadddata.do")
@@ -130,6 +137,52 @@ public class CalcController extends BaseController {
         } catch (NumberFormatException e) {
             logger.error("参数异常:\n", e);
         } catch (IOException e) {
+            logger.error("writeResponseContent error : \n", e);
+        }
+    }
+
+
+    @RequestMapping(value = "/getwarningdata.do", method = RequestMethod.GET)
+    @ResponseBody
+    public void countWarningInfo(HttpServletRequest request, HttpServletResponse response,
+                                 @RequestParam("page") Integer page, @RequestParam("rows") Integer rows) {
+        try {
+            List<Data> dataList = dataService.getAll();
+            Long lastQihao = dataList.get(0).getQihao();
+            List<WarningData> warningDataList = new ArrayList<>();
+            Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
+            Integer allQS = dataList.size();
+            for (Bit bit: Bit.values()) {
+                Map<Integer, Integer> map1 = new HashMap<>();
+                for(int i=0; i<10; i++){
+                    map1.put(i, allQS);
+                }
+                map.put(bit.getBit(), map1);
+            }
+
+            Integer qstimes = 0;
+            for (Data data : dataList) {
+                Integer[] resArr = IntegerUtils.strToArray(data.getRes());
+                qstimes++;
+                Integer pos = 0;
+                for (Integer num : resArr) {
+                    Integer times = map.get(pos).get(num);
+                    if(qstimes != times && times == allQS){
+                        map.get(pos).put(num, qstimes);
+                    }
+                    pos++;
+                }
+            }
+
+            for (Integer bitKey: map.keySet()) {
+                Map<Integer, Integer> numMap = map.get(bitKey);
+                for (Integer numKey: numMap.keySet()) {
+                    WarningData warningData = new WarningData(Bit.get(bitKey), numKey, numMap.get(numKey));
+                    warningDataList.add(warningData);
+                }
+            }
+            this.writeResponseContent(response, JsonUtils.getWarningDataJson(warningDataList, page, rows));
+        } catch (Exception e) {
             logger.error("writeResponseContent error : \n", e);
         }
     }

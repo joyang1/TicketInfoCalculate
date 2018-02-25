@@ -2,6 +2,7 @@ package cn.tommyyang.calctool.utils;
 
 import cn.tommyyang.calctool.model.Data;
 import cn.tommyyang.calctool.model.ResultData;
+import cn.tommyyang.calctool.model.WarningData;
 
 import java.util.List;
 
@@ -55,6 +56,27 @@ public class JsonUtils {
         return json;
     }
 
+    /*
+     * 获得返回数据信息的json数据
+     */
+    public static String getWarningDataJson(List<WarningData> list, Integer pageNumber, Integer pageSize) {
+        String json = "";
+        int total;// 记录总数
+        total = list.size();
+        json += "{\"total\":\"" + total + "\",\"rows\":[";
+        int totals = (pageNumber * pageSize) <= total ? (pageNumber * pageSize)
+                : total;
+        int i = (pageNumber - 1) * pageSize;
+        for (int j = i; j < totals; j++) {
+            WarningData warningData = list.get(j);
+            json += "{\"bit\":\"" + warningData.getBit().getName() + "\",\"num\":\"" + warningData.getNumber() + "\",\"times\":\"" + warningData.getQstimes() + "\"},";
+        }
+        if (total > 0) {
+            json = json.substring(0, json.length() - 1);
+        }
+        json += "]}";
+        return json;
+    }
 
     /**
      * JSON字符串特殊字符处理，比如：“\A1;1300”
