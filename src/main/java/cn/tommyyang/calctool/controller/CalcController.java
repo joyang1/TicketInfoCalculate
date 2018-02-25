@@ -23,10 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by TommyYang on 2018/2/5.
@@ -176,8 +173,16 @@ public class CalcController extends BaseController {
 
             for (Integer bitKey: map.keySet()) {
                 Map<Integer, Integer> numMap = map.get(bitKey);
-                for (Integer numKey: numMap.keySet()) {
-                    WarningData warningData = new WarningData(Bit.get(bitKey), numKey, numMap.get(numKey));
+                List<Map.Entry<Integer, Integer>> list = new ArrayList<>(numMap.entrySet());
+                Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
+                    @Override
+                    public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+
+                        return o2.getValue().compareTo(o1.getValue());
+                    }
+                });
+                for (Map.Entry<Integer, Integer> entry : list) {
+                    WarningData warningData = new WarningData(Bit.get(bitKey), entry.getKey(), entry.getValue());
                     warningDataList.add(warningData);
                 }
             }
