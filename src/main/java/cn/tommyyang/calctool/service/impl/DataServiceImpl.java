@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -62,5 +63,15 @@ public class DataServiceImpl implements IDataService {
             logger.error("get data by qishu error:\n",e );
         }
         return null;
+    }
+
+    @Override
+    public Boolean saveData(String res, Integer avg, String bit) {
+        try {
+            return dataDao.saveData(res, avg, bit);
+        } catch (SQLException e) {
+            logger.error("save data error:\n",e );
+        }
+        return false;
     }
 }

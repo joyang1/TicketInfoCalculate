@@ -129,7 +129,35 @@
                 field: 'bit',
                 title: '低于均值的位',
                 width: 20
-            }]]
+            }]],
+            toolbar : [ {
+                iconCls : 'icon-save',
+                id : 'btn-add',
+                text : '保存',
+                handler : function() {
+                    var row = $('#dg').datagrid('getSelected');
+                    $.ajax({
+                        url : "/calc/savedata.do",
+                        type : "post",
+                        dataType : "json",
+                        async : false,
+                        //传送请求数据
+                        data : {
+                            "res" : row.res,
+                            "avg" : row.avg,
+                            "bit" : row.bit
+                        },
+                        //根据返回值进行状态显示
+                        success : function(data) {
+                            if (data == "1") {
+                                $.messager.alert('我的消息', '保存成功!', '提示');
+                            } else {
+                                $.messager.alert('我的消息', '保存失败!', '提示');
+                            }
+                        }
+                    });
+                }
+            }]
         });
         //分页
         var pagenum = 10;

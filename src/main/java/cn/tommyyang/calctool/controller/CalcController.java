@@ -192,4 +192,16 @@ public class CalcController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "savedata.do", method = RequestMethod.POST)
+    @ResponseBody
+    public String savaData(HttpServletRequest request, HttpServletResponse response,
+                           @RequestParam("res") String res, @RequestParam("avg") Integer avg, @RequestParam("bit") String bit){
+        Boolean flag = dataService.saveData(res, avg, bit);
+        if(flag){
+            return "1";
+        }else {
+            return "2";
+        }
+    }
+
 }

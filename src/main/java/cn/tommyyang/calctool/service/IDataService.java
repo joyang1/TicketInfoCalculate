@@ -16,4 +16,7 @@ public interface IDataService {
     List<Data> get(Long startTime, Long endTime);
 
     List<Data> get(Integer qishu);
+
+    Boolean saveData(String res, Integer avg, String bit);
+
 }

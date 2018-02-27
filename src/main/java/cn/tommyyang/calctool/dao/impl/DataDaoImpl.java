@@ -60,4 +60,10 @@ public class DataDaoImpl extends BaseDao implements IDataDao {
         }
         return dataList;
     }
+
+    @Override
+    public Boolean saveData(String res, Integer avg, String bit) throws SQLException {
+        String sql = String.format("insert into yjdata (res, avg, bit) values ('%s', %d, '%s')", res, avg, bit);
+        return  this.getMysqlStmt().executeUpdate(sql) > 0;
+    }
 }
