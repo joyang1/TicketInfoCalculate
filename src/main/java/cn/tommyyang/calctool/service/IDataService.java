@@ -17,6 +17,6 @@ public interface IDataService {
 
     List<Data> get(Integer qishu);
 
-    Boolean saveData(String res, Integer avg, String bit);
+    Boolean saveResultData(String res, Integer avg, String bit);
 
 }

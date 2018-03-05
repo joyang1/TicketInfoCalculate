@@ -44,4 +44,13 @@ public enum Bit {
         }
         return null;
     }
+
+    public static Bit get(String name){
+        for (Bit b : Bit.values()) {
+            if(b.getName().equals(name)){
+                return b;
+            }
+        }
+        return null;
+    }
 }

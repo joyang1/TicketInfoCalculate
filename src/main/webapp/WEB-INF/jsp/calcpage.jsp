@@ -113,6 +113,12 @@
             pagination: true,
             url: '/calc/count.do',
             method: 'POST',
+            onSelect : function() {
+                $('#btn-save').linkbutton('enable');
+            },
+            onUnselect : function() {
+                $('#btn-save').linkbutton('disable');
+            },
             queryParams: {
                 starttime: "2018-2-6", endtime: "2018-2-7",
                 weishu: 5, qishu: 50, szavg: 25
@@ -132,8 +138,9 @@
             }]],
             toolbar : [ {
                 iconCls : 'icon-save',
-                id : 'btn-add',
+                id : 'btn-save',
                 text : '保存',
+                disabled : true,
                 handler : function() {
                     var row = $('#dg').datagrid('getSelected');
                     $.ajax({

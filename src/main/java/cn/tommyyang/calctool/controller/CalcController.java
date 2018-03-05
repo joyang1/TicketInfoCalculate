@@ -5,6 +5,7 @@ import cn.tommyyang.calctool.model.Data;
 import cn.tommyyang.calctool.model.ResultData;
 import cn.tommyyang.calctool.model.WarningData;
 import cn.tommyyang.calctool.model.responsecode.ResponseCode;
+import cn.tommyyang.calctool.service.ICalcService;
 import cn.tommyyang.calctool.service.IDataService;
 import cn.tommyyang.calctool.utils.CalcUtils;
 import cn.tommyyang.calctool.utils.DateTimeUtils;
@@ -37,6 +38,8 @@ public class CalcController extends BaseController {
 
     @Autowired
     private IDataService dataService;
+    @Autowired
+    private ICalcService calcService;
 
     @RequestMapping("/index.do")
     public String index(HttpServletRequest request, HttpServletResponse response) {
@@ -144,48 +147,7 @@ public class CalcController extends BaseController {
     public void countWarningInfo(HttpServletRequest request, HttpServletResponse response,
                                  @RequestParam("page") Integer page, @RequestParam("rows") Integer rows) {
         try {
-            List<Data> dataList = dataService.getAll();
-            Long lastQihao = dataList.get(0).getQihao();
-            List<WarningData> warningDataList = new ArrayList<>();
-            Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
-            Integer allQS = dataList.size();
-            for (Bit bit: Bit.values()) {
-                Map<Integer, Integer> map1 = new HashMap<>();
-                for(int i=0; i<10; i++){
-                    map1.put(i, allQS);
-                }
-                map.put(bit.getBit(), map1);
-            }
-
-            Integer qstimes = 0;
-            for (Data data : dataList) {
-                Integer[] resArr = IntegerUtils.strToArray(data.getRes());
-                qstimes++;
-                Integer pos = 0;
-                for (Integer num : resArr) {
-                    Integer times = map.get(pos).get(num);
-                    if(qstimes != times && times == allQS){
-                        map.get(pos).put(num, qstimes);
-                    }
-                    pos++;
-                }
-            }
-
-            for (Integer bitKey: map.keySet()) {
-                Map<Integer, Integer> numMap = map.get(bitKey);
-                List<Map.Entry<Integer, Integer>> list = new ArrayList<>(numMap.entrySet());
-                Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
-                    @Override
-                    public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-
-                        return o2.getValue().compareTo(o1.getValue());
-                    }
-                });
-                for (Map.Entry<Integer, Integer> entry : list) {
-                    WarningData warningData = new WarningData(Bit.get(bitKey), entry.getKey(), entry.getValue());
-                    warningDataList.add(warningData);
-                }
-            }
+            List<WarningData> warningDataList = calcService.getWarningDataList();
             this.writeResponseContent(response, JsonUtils.getWarningDataJson(warningDataList, page, rows));
         } catch (Exception e) {
             logger.error("writeResponseContent error : \n", e);
@@ -196,7 +158,7 @@ public class CalcController extends BaseController {
     @ResponseBody
     public String savaData(HttpServletRequest request, HttpServletResponse response,
                            @RequestParam("res") String res, @RequestParam("avg") Integer avg, @RequestParam("bit") String bit){
-        Boolean flag = dataService.saveData(res, avg, bit);
+        Boolean flag = dataService.saveResultData(res, avg, bit);
         if(flag){
             return "1";
         }else {

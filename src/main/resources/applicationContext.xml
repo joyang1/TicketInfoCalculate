@@ -25,6 +25,8 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
+    <context:property-placeholder location="classpath: email.properties"/>
+
 
     <!-- quartz调度配置 -->
     <!--<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"></bean>-->

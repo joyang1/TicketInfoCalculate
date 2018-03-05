@@ -66,7 +66,7 @@ public class DataServiceImpl implements IDataService {
     }
 
     @Override
-    public Boolean saveData(String res, Integer avg, String bit) {
+    public Boolean saveResultData(String res, Integer avg, String bit) {
         try {
             return dataDao.saveData(res, avg, bit);
         } catch (SQLException e) {
