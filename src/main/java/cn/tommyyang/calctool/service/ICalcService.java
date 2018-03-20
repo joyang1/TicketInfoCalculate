@@ -1,5 +1,6 @@
 package cn.tommyyang.calctool.service;
 
+import cn.tommyyang.calctool.model.MissingData;
 import cn.tommyyang.calctool.model.WarningData;
 
 import java.util.List;
@@ -12,5 +13,7 @@ public interface ICalcService {
     List<WarningData> getWarningDataList();
 
     void warnData();
+
+    List<MissingData> getMissingDataList();
 
 }

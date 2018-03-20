@@ -27,13 +27,13 @@ public class MailSenderInfo {
     private String[] copytoAddresses;
     private String[] attachFileNames;
 
-    @Value("${email.userName}")
+    @Value("${email.username}")
     private String userName;
 
     @Value("${email.password}")
     private String password;
 
-    @Value("${email.isValidate}")
+    @Value("${email.auth}")
     private Boolean isValidate;
 
     private String subject;

@@ -1,6 +1,8 @@
 package cn.tommyyang.calctool.dao;
 
 import cn.tommyyang.calctool.model.Data;
+import cn.tommyyang.calctool.model.ResultData;
+import cn.tommyyang.calctool.model.WarningData;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -19,5 +21,7 @@ public interface IDataDao {
     List<Data> get(Integer qishu) throws SQLException;
 
     Boolean saveData(String res, Integer avg, String bit) throws SQLException;
+
+    List<ResultData> getData() throws SQLException;
 
 }

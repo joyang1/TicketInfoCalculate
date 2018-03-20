@@ -1,6 +1,7 @@
 package cn.tommyyang.calctool.service;
 
 import cn.tommyyang.calctool.model.Data;
+import cn.tommyyang.calctool.model.ResultData;
 
 import java.util.List;
 
@@ -18,5 +19,7 @@ public interface IDataService {
     List<Data> get(Integer qishu);
 
     Boolean saveResultData(String res, Integer avg, String bit);
+
+    List<ResultData> getData();
 
 }

@@ -1,9 +1,6 @@
 package cn.tommyyang.calctool.controller;
 
-import cn.tommyyang.calctool.model.Bit;
-import cn.tommyyang.calctool.model.Data;
-import cn.tommyyang.calctool.model.ResultData;
-import cn.tommyyang.calctool.model.WarningData;
+import cn.tommyyang.calctool.model.*;
 import cn.tommyyang.calctool.model.responsecode.ResponseCode;
 import cn.tommyyang.calctool.service.ICalcService;
 import cn.tommyyang.calctool.service.IDataService;
@@ -54,6 +51,11 @@ public class CalcController extends BaseController {
     @RequestMapping("/gowarningdatapage.do")
     public String goWarningPage(HttpServletRequest request, HttpServletResponse response) {
         return renderString(response, "warningdatapage");
+    }
+
+    @RequestMapping("/gomissingdatapage.do")
+    public String goMissingPage(HttpServletRequest request, HttpServletResponse response) {
+        return renderString(response, "missingdatapage");
     }
 
     @RequestMapping("/goadddata.do")
@@ -149,6 +151,18 @@ public class CalcController extends BaseController {
         try {
             List<WarningData> warningDataList = calcService.getWarningDataList();
             this.writeResponseContent(response, JsonUtils.getWarningDataJson(warningDataList, page, rows));
+        } catch (Exception e) {
+            logger.error("writeResponseContent error : \n", e);
+        }
+    }
+
+    @RequestMapping(value = "/getmissingdata.do", method = RequestMethod.GET)
+    @ResponseBody
+    public void countMissingData(HttpServletRequest request, HttpServletResponse response,
+                                 @RequestParam("page") Integer page, @RequestParam("rows") Integer rows) {
+        try {
+            List<MissingData> missingDataList = calcService.getMissingDataList();
+            this.writeResponseContent(response, JsonUtils.getMissingDataJson(missingDataList, page, rows));
         } catch (Exception e) {
             logger.error("writeResponseContent error : \n", e);
         }

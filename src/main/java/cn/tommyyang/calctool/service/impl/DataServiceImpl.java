@@ -2,6 +2,7 @@ package cn.tommyyang.calctool.service.impl;
 
 import cn.tommyyang.calctool.dao.IDataDao;
 import cn.tommyyang.calctool.model.Data;
+import cn.tommyyang.calctool.model.ResultData;
 import cn.tommyyang.calctool.service.IDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,5 +74,15 @@ public class DataServiceImpl implements IDataService {
             logger.error("save data error:\n",e );
         }
         return false;
+    }
+
+    @Override
+    public List<ResultData> getData() {
+        try {
+            return dataDao.getData();
+        } catch (SQLException e) {
+            logger.error("get result data error:\n",e );
+        }
+        return null;
     }
 }

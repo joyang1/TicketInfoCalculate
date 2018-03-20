@@ -2,7 +2,10 @@ package cn.tommyyang.calctool.dao.impl;
 
 import cn.tommyyang.calctool.dao.BaseDao;
 import cn.tommyyang.calctool.dao.IDataDao;
+import cn.tommyyang.calctool.model.Bit;
 import cn.tommyyang.calctool.model.Data;
+import cn.tommyyang.calctool.model.ResultData;
+import cn.tommyyang.calctool.model.WarningData;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -65,5 +68,20 @@ public class DataDaoImpl extends BaseDao implements IDataDao {
     public Boolean saveData(String res, Integer avg, String bit) throws SQLException {
         String sql = String.format("insert into yjdata (res, avg, bit) values ('%s', %d, '%s')", res, avg, bit);
         return  this.getMysqlStmt().executeUpdate(sql) > 0;
+    }
+
+    @Override
+    public List<ResultData> getData() throws SQLException {
+        String sql = "select * from yjdata";
+        ResultSet rs = this.getMysqlStmt().executeQuery(sql);
+        List<ResultData> resultDataList = new ArrayList<>();
+        while (rs.next()){
+            String res = rs.getString("res");
+            Integer avg = rs.getInt("avg");
+            String bit = rs.getString("bit");
+            ResultData resultData = new ResultData(res, avg, Bit.get(bit));
+            resultDataList.add(resultData);
+        }
+        return resultDataList;
     }
 }

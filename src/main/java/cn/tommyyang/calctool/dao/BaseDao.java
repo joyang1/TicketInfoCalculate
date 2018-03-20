@@ -33,8 +33,13 @@ public class BaseDao {
 
     protected Statement getMysqlStmt(){
         mysqlConn = this.getMysqlConn();
-        stmt = MysqlUtils.getStmt(mysqlConn);
-        return stmt;
+        mysqlStmt = MysqlUtils.getStmt(mysqlConn);
+        return mysqlStmt;
+    }
+
+    protected void closeMysql(){
+        MysqlUtils.closeStmt(mysqlStmt);
+        MysqlUtils.closeConn(mysqlConn);
     }
 
 }

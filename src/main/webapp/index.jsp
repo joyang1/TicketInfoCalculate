@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-
+<jsp:forward page="/calc/index.do"></jsp:forward>
 </body>
 </html>

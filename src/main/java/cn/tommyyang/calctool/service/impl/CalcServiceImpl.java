@@ -1,10 +1,9 @@
 package cn.tommyyang.calctool.service.impl;
 
-import cn.tommyyang.calctool.model.Bit;
-import cn.tommyyang.calctool.model.Data;
-import cn.tommyyang.calctool.model.WarningData;
+import cn.tommyyang.calctool.model.*;
 import cn.tommyyang.calctool.service.ICalcService;
 import cn.tommyyang.calctool.service.IDataService;
+import cn.tommyyang.calctool.utils.Constants;
 import cn.tommyyang.calctool.utils.IntegerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,8 +65,44 @@ public class CalcServiceImpl implements ICalcService {
         return warningDataList;
     }
 
+
+
     @Override
     public void warnData() {
 
     }
+
+    @Override
+    public List<MissingData> getMissingDataList() {
+        List<WarningData> warningDataList = this.getWarningDataList();
+        List<ResultData> resultDataList = dataService.getData();
+        List<MissingData> missingDataList = new ArrayList<>();
+
+        for (ResultData resultData : resultDataList) {
+            int i = 4; //起始位置
+            String combine = resultData.getCombine();
+            WarningData warningData = null;
+            while (true){
+                int sameNum = 0;
+                for(int m = i; m < i+6; m++){
+                    if(combine.contains(warningDataList.get(m).getNumber().toString())){
+                        sameNum++;
+                    }
+                    warningData = warningDataList.get(m);
+                }
+                if(sameNum >= 4 && sameNum <= 6){
+                    MissingData missingData = new MissingData(warningData.getBit(), combine, sameNum);
+                    missingDataList.add(missingData);
+                }
+                if(i == 44){
+                    break;
+                }
+                i += 10;
+            }
+
+        }
+        return missingDataList;
+    }
+
+
 }
