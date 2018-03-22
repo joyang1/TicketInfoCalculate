@@ -23,17 +23,19 @@ public class MailSenderInfo {
 
     @Value("${email.fromAddress}")
     private String fromAddress;
-    private String[] toAddresses;
-    private String[] copytoAddresses;
+    @Value("${email.toAddress}")
+    private String toAddresses;
+
+    private String copytoAddresses;
     private String[] attachFileNames;
 
-    @Value("${email.username}")
+    @Value("${email.userName}")
     private String userName;
 
     @Value("${email.password}")
     private String password;
 
-    @Value("${email.auth}")
+    @Value("${email.isValidate}")
     private Boolean isValidate;
 
     private String subject;
@@ -80,19 +82,19 @@ public class MailSenderInfo {
         this.fromAddress = fromAddress;
     }
 
-    public String[] getToAddresses() {
+    public String getToAddresses() {
         return toAddresses;
     }
 
-    public void setToAddresses(String[] toAddresses) {
+    public void setToAddresses(String toAddresses) {
         this.toAddresses = toAddresses;
     }
 
-    public String[] getCopytoAddresses() {
+    public String getCopytoAddresses() {
         return copytoAddresses;
     }
 
-    public void setCopytoAddresses(String[] copytoAddresses) {
+    public void setCopytoAddresses(String copytoAddresses) {
         this.copytoAddresses = copytoAddresses;
     }
 

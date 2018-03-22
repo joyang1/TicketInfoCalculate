@@ -22,6 +22,7 @@ public class EmailServiceImpl implements IEmailService {
 
     private final static Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
 
+
     @Override
     public void sendTextMail(MailSenderInfo mailSenderInfo) {
         Session session = this.getSession(mailSenderInfo);
@@ -29,15 +30,11 @@ public class EmailServiceImpl implements IEmailService {
             Message mailMessage = new MimeMessage(session);
             Address from = new InternetAddress(mailSenderInfo.getFromAddress());
             mailMessage.setFrom(from);
-            if(mailSenderInfo.getToAddresses() != null && mailSenderInfo.getToAddresses().length > 0){
-                for (String to : mailSenderInfo.getToAddresses()) {
-                    mailMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-                }
+            if(mailSenderInfo.getToAddresses().contains("@") && mailSenderInfo.getToAddresses().contains("com")){
+                mailMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailSenderInfo.getToAddresses()));
             }
-            if(mailSenderInfo.getCopytoAddresses() != null && mailSenderInfo.getCopytoAddresses().length > 0){
-                for (String cc : mailSenderInfo.getCopytoAddresses()) {
-                    mailMessage.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
-                }
+            if(mailSenderInfo.getCopytoAddresses().contains("@") && mailSenderInfo.getCopytoAddresses().contains("com")){
+                mailMessage.setRecipients(Message.RecipientType.CC, InternetAddress.parse(mailSenderInfo.getCopytoAddresses()));
             }
             mailMessage.setSubject(mailSenderInfo.getSubject());
             mailMessage.setSentDate(new Date());
@@ -55,15 +52,11 @@ public class EmailServiceImpl implements IEmailService {
             Message mailMessage = new MimeMessage(session);
             Address from = new InternetAddress(mailSenderInfo.getFromAddress());
             mailMessage.setFrom(from);
-            if(mailSenderInfo.getToAddresses() != null && mailSenderInfo.getToAddresses().length > 0){
-                for (String to : mailSenderInfo.getToAddresses()) {
-                    mailMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-                }
+            if(mailSenderInfo.getToAddresses().contains("@") && mailSenderInfo.getToAddresses().contains("com")){
+                mailMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailSenderInfo.getToAddresses()));
             }
-            if(mailSenderInfo.getCopytoAddresses() != null && mailSenderInfo.getCopytoAddresses().length > 0){
-                for (String cc : mailSenderInfo.getCopytoAddresses()) {
-                    mailMessage.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
-                }
+            if(mailSenderInfo.getCopytoAddresses().contains("@") && mailSenderInfo.getCopytoAddresses().contains("com")){
+                mailMessage.setRecipients(Message.RecipientType.CC, InternetAddress.parse(mailSenderInfo.getCopytoAddresses()));
             }
             mailMessage.setSubject(mailSenderInfo.getSubject());
             mailMessage.setSentDate(new Date());
