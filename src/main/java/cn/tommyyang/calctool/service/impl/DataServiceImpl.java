@@ -67,9 +67,9 @@ public class DataServiceImpl implements IDataService {
     }
 
     @Override
-    public Boolean saveResultData(String res, Integer avg, String bit) {
+    public Boolean saveResultData(String section, String res, Integer avg, String bit) {
         try {
-            return dataDao.saveData(res, avg, bit);
+            return dataDao.saveData(section, res, avg, bit);
         } catch (SQLException e) {
             logger.error("save data error:\n",e );
         }
@@ -84,5 +84,15 @@ public class DataServiceImpl implements IDataService {
             logger.error("get result data error:\n",e );
         }
         return null;
+    }
+
+    @Override
+    public Boolean delData(Integer id) {
+        try {
+            return dataDao.delData(id);
+        }catch (Exception e){
+            logger.error(String.format("id:%d, delete yjdata error:\n", id),e);
+        }
+        return false;
     }
 }

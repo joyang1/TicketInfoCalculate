@@ -18,8 +18,10 @@ public interface IDataService {
 
     List<Data> get(Integer qishu);
 
-    Boolean saveResultData(String res, Integer avg, String bit);
+    Boolean saveResultData(String section, String res, Integer avg, String bit);
 
     List<ResultData> getData();
+
+    Boolean delData(Integer id);
 
 }

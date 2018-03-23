@@ -67,17 +67,14 @@
                 src="/EasyUI/themes/icons/user.png">预警数据</a><br /> <br />
         <a href="#" onclick="addTab('遗漏值提示数据', 'calc/gomissingdatapage.do', 'icon-user')"><img
                 src="/EasyUI/themes/icons/user.png">遗漏值提示数据</a><br /> <br />
-        <a href="#" onclick="addTab('单期添加', 'calc/goadddata.do', 'icon-user')"><img
-                src="/EasyUI/themes/icons/user.png">单期添加</a><br /> <br />
     </div>
-    <%--<div title="店铺商品管理" data-options="iconCls:'icon-save'"--%>
-         <%--style="padding: 10px;">--%>
-        <%--<a href="#"--%>
-           <%--onclick="addTab('店铺管理', '/store/storemanage.do','icon-filter')"><img--%>
-                <%--src="/EasyUI/themes/icons/filter.png">店铺管理</a><br /> <br /> <a--%>
-            <%--href="#" onclick="addTab('商品管理', '/product/productmanage.do')"><img--%>
-            <%--src="/EasyUI/themes/icons/filter.png">商品管理</a><br /> <br />--%>
-    <%--</div>--%>
+    <div title="数据管理" data-options="iconCls:'icon-save'"
+         style="padding: 10px;">
+        <a href="#" onclick="addTab('需要预警数据管理', '/calc/gomanagewarningdata.do','icon-filter')"><img
+                src="/EasyUI/themes/icons/filter.png">需要预警数据管理</a><br /> <br />
+        <a href="#" onclick="addTab('单期添加', 'calc/goadddata.do', 'icon-user')"><img
+            src="/EasyUI/themes/icons/user.png">单期添加</a><br /> <br />
+    </div>
 </div>
 <div data-options="region:'center',title:'计算中心',split:false" id="tt"
      class="easyui-tabs"

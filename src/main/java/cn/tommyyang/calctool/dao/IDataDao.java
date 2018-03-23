@@ -20,8 +20,10 @@ public interface IDataDao {
 
     List<Data> get(Integer qishu) throws SQLException;
 
-    Boolean saveData(String res, Integer avg, String bit) throws SQLException;
+    Boolean saveData(String section, String res, Integer avg, String bit) throws SQLException;
 
     List<ResultData> getData() throws SQLException;
+
+    Boolean delData(Integer id) throws SQLException;
 
 }

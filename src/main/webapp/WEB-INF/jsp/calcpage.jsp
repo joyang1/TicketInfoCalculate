@@ -124,17 +124,21 @@
                 weishu: 5, qishu: 50, szavg: 25
             },
             columns: [[{
+                field: 'section',
+                title: '期号区间',
+                width: 40
+            },{
                 field: 'res',
                 title: '组合',
-                width: 40
+                width: 30
             }, {
                 field: 'avg',
                 title: '均值',
-                width: 40
+                width: 15
             }, {
                 field: 'bit',
                 title: '低于均值的位',
-                width: 20
+                width: 15
             }]],
             toolbar : [ {
                 iconCls : 'icon-save',
@@ -150,6 +154,7 @@
                         async : false,
                         //传送请求数据
                         data : {
+                            "section": row.section,
                             "res" : row.res,
                             "avg" : row.avg,
                             "bit" : row.bit

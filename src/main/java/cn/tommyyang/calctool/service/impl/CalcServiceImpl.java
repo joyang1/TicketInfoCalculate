@@ -90,7 +90,7 @@ public class CalcServiceImpl implements ICalcService {
                     }
                     warningData = warningDataList.get(m);
                 }
-                if(sameNum >= 4 && sameNum <= 6){
+                if(sameNum >= 4 && sameNum <= 6 && warningData.getBit().getBit() == resultData.getBit().getBit()){
                     MissingData missingData = new MissingData(warningData.getBit(), combine, sameNum);
                     missingDataList.add(missingData);
                 }

@@ -58,6 +58,11 @@ public class CalcController extends BaseController {
         return renderString(response, "missingdatapage");
     }
 
+    @RequestMapping(value = "gomanagewarningdata.do")
+    public String goManageWarningData(HttpServletRequest request, HttpServletResponse response){
+        return renderString(response, "managewarningdata");
+    }
+
     @RequestMapping("/goadddata.do")
     public String goAdddata(HttpServletRequest request, HttpServletResponse response) {
         return renderString(response, "adddata");
@@ -100,6 +105,8 @@ public class CalcController extends BaseController {
                 Long endDateLong = Long.parseLong(endDateStr);
                 dataList = dataService.get(startDateLong, endDateLong);
             }
+            long lastQihao = dataList.get(0).getQihao();
+            long firstQihao = dataList.get(dataList.size() - 1).getQihao();
             Map<Integer, Map<Integer, Integer>> initMap = CalcUtils.getMap();
             Integer avg = szavg;
             List<String> combineArr = new ArrayList<>();
@@ -127,7 +134,8 @@ public class CalcController extends BaseController {
                         sum = sum + times;
                     }
                     if (sum < avg) {
-                        ResultData resultData = new ResultData(combine, sum, Bit.get(p));
+                        String section = firstQihao + "-" + lastQihao;
+                        ResultData resultData = new ResultData(section, combine, sum, Bit.get(p));
                         resultDataList.add(resultData);
                     }
                 }
@@ -170,9 +178,33 @@ public class CalcController extends BaseController {
 
     @RequestMapping(value = "savedata.do", method = RequestMethod.POST)
     @ResponseBody
-    public String savaData(HttpServletRequest request, HttpServletResponse response,
+    public String savaData(HttpServletRequest request, HttpServletResponse response,@RequestParam("section") String section,
                            @RequestParam("res") String res, @RequestParam("avg") Integer avg, @RequestParam("bit") String bit){
-        Boolean flag = dataService.saveResultData(res, avg, bit);
+        Boolean flag = dataService.saveResultData(section, res, avg, bit);
+        if(flag){
+            return "1";
+        }else {
+            return "2";
+        }
+    }
+
+    @RequestMapping(value = "getneedwarningdata.do")
+    @ResponseBody
+    public void getNeedWarningData(HttpServletRequest request, HttpServletResponse response,
+                                     @RequestParam("page") Integer page, @RequestParam("rows") Integer rows){
+        try {
+            List<ResultData> resultDataList = dataService.getData();
+            this.writeResponseContent(response, JsonUtils.getNeedWarningDataJson(resultDataList, page, rows));
+        } catch (Exception e) {
+            logger.error("writeResponseContent error : \n", e);
+        }
+    }
+
+    @RequestMapping(value = "delneedwarningdata.do", method = RequestMethod.POST)
+    @ResponseBody
+    public String delNeedWarningData(HttpServletRequest request, HttpServletResponse response,
+                                     @RequestParam("id") Integer id){
+        Boolean flag = dataService.delData(id);
         if(flag){
             return "1";
         }else {

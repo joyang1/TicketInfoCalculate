@@ -48,7 +48,29 @@ public class JsonUtils {
         int i = (pageNumber - 1) * pageSize;
         for (int j = i; j < totals; j++) {
             ResultData resultData = list.get(j);
-            json += "{\"res\":\"" + resultData.getCombine() + "\",\"avg\":\"" + resultData.getAvg() + "\",\"bit\":\"" + resultData.getBit().getName() + "\"},";
+            json += "{\"section\":\"" + resultData.getSection() + "\",\"res\":\"" + resultData.getCombine() + "\",\"avg\":\"" + resultData.getAvg() + "\",\"bit\":\"" + resultData.getBit().getName() + "\"},";
+        }
+        if (total > 0) {
+            json = json.substring(0, json.length() - 1);
+        }
+        json += "]}";
+        return json;
+    }
+
+    /*
+     * 获得返回数据信息的json数据
+     */
+    public static String getNeedWarningDataJson(List<ResultData> list, Integer pageNumber, Integer pageSize) {
+        String json = "";
+        int total;// 记录总数
+        total = list.size();
+        json += "{\"total\":\"" + total + "\",\"rows\":[";
+        int totals = (pageNumber * pageSize) <= total ? (pageNumber * pageSize)
+                : total;
+        int i = (pageNumber - 1) * pageSize;
+        for (int j = i; j < totals; j++) {
+            ResultData resultData = list.get(j);
+            json += "{\"id\":\"" + resultData.getId() + "\",\"section\":\"" + resultData.getSection() + "\",\"res\":\"" + resultData.getCombine() + "\",\"avg\":\"" + resultData.getAvg() + "\",\"bit\":\"" + resultData.getBit().getName() + "\"},";
         }
         if (total > 0) {
             json = json.substring(0, json.length() - 1);

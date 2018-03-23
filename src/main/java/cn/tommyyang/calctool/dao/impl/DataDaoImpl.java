@@ -65,8 +65,9 @@ public class DataDaoImpl extends BaseDao implements IDataDao {
     }
 
     @Override
-    public Boolean saveData(String res, Integer avg, String bit) throws SQLException {
-        String sql = String.format("insert into yjdata (res, avg, bit) values ('%s', %d, '%s')", res, avg, bit);
+    public Boolean saveData(String section,String res, Integer avg, String bit) throws SQLException {
+        String sql = String.format("insert into yjdata (section, res, avg, bit) values ('%s', '%s', %d, '%s')",
+                section, res, avg, bit);
         return  this.getMysqlStmt().executeUpdate(sql) > 0;
     }
 
@@ -76,12 +77,21 @@ public class DataDaoImpl extends BaseDao implements IDataDao {
         ResultSet rs = this.getMysqlStmt().executeQuery(sql);
         List<ResultData> resultDataList = new ArrayList<>();
         while (rs.next()){
+            Integer id = rs.getInt("id");
+            String section = rs.getString("section");
             String res = rs.getString("res");
             Integer avg = rs.getInt("avg");
             String bit = rs.getString("bit");
-            ResultData resultData = new ResultData(res, avg, Bit.get(bit));
+            ResultData resultData = new ResultData(section,res, avg, Bit.get(bit));
+            resultData.setId(id);
             resultDataList.add(resultData);
         }
         return resultDataList;
+    }
+
+    @Override
+    public Boolean delData(Integer id) throws SQLException {
+        String sql = String.format("delete from yjdata where id = %d", id);
+        return this.getMysqlStmt().executeUpdate(sql) > 0;
     }
 }
